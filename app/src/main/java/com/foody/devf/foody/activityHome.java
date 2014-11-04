@@ -1,5 +1,6 @@
 package com.foody.devf.foody;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -8,9 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
+
+import com.astuetz.PagerSlidingTabStrip;
 
 
 public class activityHome extends Activity {
+    Button empezar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,13 @@ public class activityHome extends Activity {
         ViewPager myPager = (ViewPager) findViewById(R.id.pager);
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(0);
+
+        empezar = (Button) findViewById(R.id.empezarapp);
+    }
+
+    public void empezarApp(View view ){
+        Intent intent = new Intent(getBaseContext(),refriActivity.class);
+        startActivity(intent);
     }
 
     @Override

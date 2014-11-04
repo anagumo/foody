@@ -8,5 +8,10 @@
     <string name="receta">Encuentra una receta</string>
     <string name="cocinar">Cocina al instante</string>
     <string name="Empezar">Empezar</string>
+    <string name="title_activity_refri">Ingredientes</string>
+    <string name="titulo_activity_refri">¿Qué hay en tu refri?</string>
+    <string name="ingredients">"Ingrediente"</string>
+    <string name="buscar">Buscar Receta</string>
+    <string name="agregar">agregar</string>
 
 </resources>

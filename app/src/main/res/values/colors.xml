@@ -2,4 +2,5 @@
 <resources>
     <color name="android">#a4c639</color>
     <color name="blanco">#fff5f5f5</color>
+    <color name="gris">#ffa5a5a5</color>
 </resources>

@@ -9,8 +9,60 @@
     tools:context="com.foody.devf.foody.refriActivity">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="@string/titulo_activity_refri"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="35sp"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ingrediente"
+        android:hint="@string/ingredients"
+        android:layout_below="@+id/textView"
+        android:layout_alignRight="@+id/lista"
+        android:layout_alignEnd="@+id/lista"
+        android:layout_marginTop="29dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buscar"
+        android:background="@color/android"
+        android:textColor="@color/blanco"
+        android:padding="10dp"
+        android:id="@+id/search"
+        android:onClick="buscarReceta"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/agregar"
+        android:layout_alignEnd="@+id/agregar"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agregar"
+        android:padding="10dp"
+        android:textColor="@color/android"
+        android:textSize="16sp"
+        android:id="@+id/agregar"
+        android:background="@null"
+        android:layout_above="@+id/lista"
+        android:layout_alignRight="@+id/ingrediente"
+        android:layout_alignEnd="@+id/ingrediente"
+        android:onClick="addIngrediente"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lista"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/search"
+        android:layout_below="@+id/ingrediente" />
 
 </RelativeLayout>
