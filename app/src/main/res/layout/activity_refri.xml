@@ -54,8 +54,7 @@
         android:background="@null"
         android:layout_above="@+id/lista"
         android:layout_alignRight="@+id/ingrediente"
-        android:layout_alignEnd="@+id/ingrediente"
-        android:onClick="addIngrediente"/>
+        android:layout_alignEnd="@+id/ingrediente"/>
 
     <ListView
         android:layout_width="wrap_content"

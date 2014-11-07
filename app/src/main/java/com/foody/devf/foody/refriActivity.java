@@ -1,6 +1,8 @@
 package com.foody.devf.foody;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -19,89 +21,56 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 
-public class refriActivity extends FragmentActivity {
 
-    Button buscar;
-    Button agregar;
-    ProgressDialog progressDialog;
-    EditText ingrediente;
-    ListView lista;
-  //  String ingredient;
-  //  TextView prueba;
+public class refriActivity extends Activity{
+
+    private Button buscar;
+    private Button agregar;
+    private ProgressDialog buscando;
+    private EditText ingrediente;
+    private ListView lista;
+    private ArrayList<String> ingredientes; // Arreglo de tipo String que contendrá los ingredientes.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refri);
 
-
-       // FragmentManager fm = getSupportFragmentManager();
-
-
         ingrediente = (EditText) findViewById(R.id.ingrediente);
         lista = (ListView) findViewById(R.id.lista);
         agregar = (Button) findViewById(R.id.agregar);
         buscar = (Button) findViewById(R.id.search);
-        //prueba = (TextView) findViewById(R.id.prueba);
-        //if (fm.findFragmentById(android.R.id.content) == null) {
-          //  SimpleListFragment list = new SimpleListFragment();
-            //fm.beginTransaction().add(android.R.id.content, list).commit();
-        //}
-    }
 
-  /*  public static class SimpleListFragment extends ListFragment
-    {
+        //Focus
+        ingredientes = new ArrayList<String>();
+        //Adapter
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientes);
+        lista.setAdapter(listAdapter); //Al listview "lista", se le suministra los datos "listAdapter" a través de "setAdapter"
 
-        String ingredient;
-        SimpleListFragment(String test) {
-            ingredient = test;
-        }
-
-        String[] numbers_text = new String[] { "one", "two", "three", "four",
-                "five", "six", "seven", "eight", "nine", "ten", "eleven",
-                "twelve", "thirteen", "fourteen", "fifteen" };
-        String[] numbers_digits = new String[] { "1", "2", "3", "4", "5", "6", "7",
-                "8", "9", "10", "11", "12", "13", "14", "15" };
-
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-            //Toast.makeText(getActivity(),  numbers_digits[(int), Toast.LENGTH_LONG).show();
-            //new CustomToast(getActivity(), numbers_digits[(int) id]);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    inflater.getContext(), android.R.layout.simple_list_item_1,
-                    numbers_digits);
-            setListAdapter(adapter);
-            return super.onCreateView(inflater, container, savedInstanceState);
-        }
-
-        public void setString(String ingredient) {
-
-            this.ingredient = ingredient;
-
-        }
-
-    }*/
-
-    public void addIngrediente(View view) {
-       /* agregar.setOnClickListener(new View.OnClickListener() {
+        //escuchar al botón agregar
+        agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ingredient = ingrediente.getText().toString();
-                Log.i("Variable obtenida", ingredient);
-                prueba.setText(ingredient);*/
-                Toast.makeText(this, "Agregado!", Toast.LENGTH_SHORT).show();
-         //   }
-       // });
+                ingredientes.add(ingrediente.getText().toString()); //Al arreglo Ingredientes agregamos el dato obtenido del editText
+                ingrediente.setText(""); //Imprime el dato obtenido
+
+                //Es como refresh o algo así
+                ArrayAdapter<String> listAdapter = (ArrayAdapter) lista.getAdapter();
+                listAdapter.notifyDataSetChanged();
+                Log.i("Boton: ", "Boton apretado"); //Para pruebas internas de código
+
+                //Toast.makeText(this,"Agregado!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+
+
     public void buscarReceta(View view) {
-        progressDialog = ProgressDialog.show(this, "", "Buscando receta...");
+
+        buscando = ProgressDialog.show(this, "", "Buscando receta...");
     }
 
     @Override
