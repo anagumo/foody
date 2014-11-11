@@ -29,7 +29,7 @@
         android:layout_marginTop="29dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/buscar"
         android:background="@color/android"
@@ -40,7 +40,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/agregar"
         android:layout_alignEnd="@+id/agregar"
-        android:layout_marginBottom="48dp" />
+        android:layout_marginBottom="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"

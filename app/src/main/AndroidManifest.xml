@@ -20,6 +20,9 @@
             android:name=".refriActivity"
             android:label="@string/title_activity_refri" >
         </activity>
+        <activity android:name=".activityReceta"
+            android:label="Receta">
+        </activity>
     </application>
 
 </manifest>

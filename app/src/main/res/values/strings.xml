@@ -13,5 +13,6 @@
     <string name="ingredients">"Ingrediente"</string>
     <string name="buscar">Buscar Receta</string>
     <string name="agregar">agregar</string>
+    <string name="pasos">Receta</string>
 
 </resources>

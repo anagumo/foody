@@ -3,11 +3,13 @@ package com.foody.devf.foody;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -53,24 +56,36 @@ public class refriActivity extends Activity{
         agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ingredientes.add(ingrediente.getText().toString()); //Al arreglo Ingredientes agregamos el dato obtenido del editText
-                ingrediente.setText(""); //Imprime el dato obtenido
+                String ingredient = ingrediente.getText().toString();
 
-                //Es como refresh o algo así
-                ArrayAdapter<String> listAdapter = (ArrayAdapter) lista.getAdapter();
-                listAdapter.notifyDataSetChanged();
-                Log.i("Boton: ", "Boton apretado"); //Para pruebas internas de código
+                if (ingredient.equals("")) {
+                    Toast personalizado = Toast.makeText(getBaseContext(), "Escribe algo", Toast.LENGTH_SHORT);
+                     personalizado.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
 
-                //Toast.makeText(this,"Agregado!", Toast.LENGTH_SHORT).show();
+                     personalizado.show();
+                }
+                else{
+                    ingredientes.add(ingrediente.getText().toString()); //Al arreglo Ingredientes agregamos el dato obtenido del editText
+                    ingrediente.setText(""); //Imprime el dato obtenido
+
+                    //Es como refresh o algo así
+                    ArrayAdapter<String> listAdapter = (ArrayAdapter) lista.getAdapter();
+                    listAdapter.notifyDataSetChanged();
+                    Log.i("Boton: ", "Boton apretado"); //Para pruebas internas de código
+
+                    Toast dos = Toast.makeText(getBaseContext(), "Agregado!", Toast.LENGTH_SHORT);
+                    dos.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                    dos.show();
+                }
             }
         });
+
     }
 
-
-
     public void buscarReceta(View view) {
-
         buscando = ProgressDialog.show(this, "", "Buscando receta...");
+        Intent intent = new Intent(this, activityReceta.class);
+        startActivity(intent);
     }
 
     @Override
