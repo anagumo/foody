@@ -2,29 +2,31 @@ package com.foody.devf.foody;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class refriActivity extends Activity{
@@ -35,6 +37,12 @@ public class refriActivity extends Activity{
     private EditText ingrediente;
     private ListView lista;
     private ArrayList<String> ingredientes; // Arreglo de tipo String que contendrá los ingredientes.
+    //volley
+    private String urlJson = "https://agile-refuge-1884.herokuapp.com/formulas?format=json&ingredients=1";
+    private static String TAG = refriActivity.class.getSimpleName();
+
+    // temporary string to show the parsed response
+    String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +66,7 @@ public class refriActivity extends Activity{
             public void onClick(View v) {
                 String ingredient = ingrediente.getText().toString();
 
-                if (ingredient.equals("")) {
+                if (ingredient.equals(null)) {
                     Toast personalizado = Toast.makeText(getBaseContext(), "Escribe algo", Toast.LENGTH_SHORT);
                      personalizado.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
 
@@ -80,12 +88,84 @@ public class refriActivity extends Activity{
             }
         });
 
+        //escuchar al botón buscar
+        buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // making json array request
+                makeJsonArrayRequest();
+            }
+        });
+
     }
 
-    public void buscarReceta(View view) {
+    private void makeJsonArrayRequest() {
+
+        RequestQueue queue = ClassController.getInstance(getApplicationContext()).getRequestQueue();
+
         buscando = ProgressDialog.show(this, "", "Buscando receta...");
-        Intent intent = new Intent(this, activityReceta.class);
-        startActivity(intent);
+
+        JsonArrayRequest req = new JsonArrayRequest(urlJson, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                    //Log.d(TAG, response.toString());
+
+                try {
+                    // Parsing json array response
+                    // loop through each json object
+                    jsonResponse = "";
+                    for (int i = 0; i < response.length(); i++) {
+
+                        JSONObject receta = (JSONObject) response.get(i);
+
+                        String name = receta.getString("nombre");
+                        String time = receta.getString("tiempo");
+                        String type = receta.getString("tipo");
+                        String description = receta.getString("descripcion");
+
+                        // Todos estos datos se pueden guardar en un Bundle, hacerlo así es mala práctica
+
+                        jsonResponse += "Receta: " + name + "\n\n";
+                        jsonResponse += "Tiempo: " + time + "\n\n";
+                        jsonResponse += "Tipo: " + type + "\n\n";
+                        jsonResponse += "Pasos: " + description + "\n\n";
+                    }
+
+                    Intent intent = new Intent(getBaseContext(), activityReceta.class);
+                    intent.putExtra("sentJson", jsonResponse);
+                    startActivity(intent);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),
+                        "Errorr: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+            buscando.hide();
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            VolleyLog.d("error", "Error: " + error.getMessage());
+            Toast.makeText(getApplicationContext(),
+                    error.getMessage(), Toast.LENGTH_SHORT).show();
+            buscando.hide();
+        }
+    });
+
+        queue.add(req);
+    }
+
+    private void showpDialog() {
+        if (!buscando.isShowing())
+            buscando.show();
+    }
+
+    private void hidepDialog() {
+        if (buscando.isShowing())
+            buscando.dismiss();
     }
 
     @Override
