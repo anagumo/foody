@@ -2,34 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.foody.devf.foody.refriActivity">
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:background="@color/android"
+        android:id="@+id/view" />
+
     <TextView
-        android:text="@string/titulo_activity_refri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="35sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/titulo_activity_refri"
+        android:textSize="30sp"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
-
+        android:layout_marginTop="50dp" />
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ingrediente"
         android:hint="@string/ingredients"
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/lista"
-        android:layout_alignEnd="@+id/lista"
-        android:layout_marginTop="29dp" />
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/view"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_toStartOf="@+id/agregar"
+        android:layout_alignRight="@+id/agregar"
+        android:layout_alignEnd="@+id/agregar" />
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/buscar"
         android:background="@color/android"
@@ -38,9 +44,7 @@
         android:id="@+id/search"
         android:onClick="buscarReceta"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/agregar"
-        android:layout_alignEnd="@+id/agregar"
-        android:layout_marginBottom="10dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -52,16 +56,20 @@
         android:textSize="16sp"
         android:id="@+id/agregar"
         android:background="@null"
-        android:layout_above="@+id/lista"
-        android:layout_alignRight="@+id/ingrediente"
-        android:layout_alignEnd="@+id/ingrediente"/>
+        android:layout_alignBaseline="@+id/ingrediente"
+        android:layout_alignBottom="@+id/ingrediente"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lista"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/search"
-        android:layout_below="@+id/ingrediente" />
+        android:layout_below="@+id/ingrediente"
+        android:layout_alignLeft="@+id/ingrediente"
+        android:layout_alignStart="@+id/ingrediente"
+        android:layout_alignRight="@+id/agregar"
+        android:layout_alignEnd="@+id/agregar" />
 
 </RelativeLayout>

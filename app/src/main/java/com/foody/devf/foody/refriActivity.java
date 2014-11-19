@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -38,7 +39,7 @@ public class refriActivity extends Activity{
     private ListView lista;
     private ArrayList<String> ingredientes; // Arreglo de tipo String que contendrá los ingredientes.
     //volley
-    private String urlJson = "https://agile-refuge-1884.herokuapp.com/formulas?format=json&ingredients=1";
+    private String urlJson;
     private static String TAG = refriActivity.class.getSimpleName();
 
     // temporary string to show the parsed response
@@ -66,7 +67,7 @@ public class refriActivity extends Activity{
             public void onClick(View v) {
                 String ingredient = ingrediente.getText().toString();
 
-                if (ingredient.equals(null)) {
+                if (ingredient.equals("")) {
                     Toast personalizado = Toast.makeText(getBaseContext(), "Escribe algo", Toast.LENGTH_SHORT);
                      personalizado.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
 
@@ -74,6 +75,7 @@ public class refriActivity extends Activity{
                 }
                 else{
                     ingredientes.add(ingrediente.getText().toString()); //Al arreglo Ingredientes agregamos el dato obtenido del editText
+
                     ingrediente.setText(""); //Imprime el dato obtenido
 
                     //Es como refresh o algo así
@@ -92,8 +94,16 @@ public class refriActivity extends Activity{
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // making json array request
-                makeJsonArrayRequest();
+                //Validar array vacío
+               if (ingredientes.size()==0){
+                    Toast tres = Toast.makeText(getBaseContext(), "No tienes ingredientes", Toast.LENGTH_LONG);
+                    tres.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                    tres.show();
+
+                }else {
+                    // making json array request
+                    makeJsonArrayRequest();
+                }
             }
         });
 
@@ -104,6 +114,17 @@ public class refriActivity extends Activity{
         RequestQueue queue = ClassController.getInstance(getApplicationContext()).getRequestQueue();
 
         buscando = ProgressDialog.show(this, "", "Buscando receta...");
+
+       //Leer Array y URL dinámica.
+       //for(String i : ingredientes){
+        String idIngrediente = ingredientes.get(0);
+       //     Log.i("primerdato", id);
+       //}
+       // String idIngrediente = "";
+       // if (ingredientes.contains("huevos")){
+       //    idIngrediente = "1";
+       // }
+        urlJson = "https://agile-refuge-1884.herokuapp.com/formulas?format=json&ingredients="+idIngrediente;
 
         JsonArrayRequest req = new JsonArrayRequest(urlJson, new Response.Listener<JSONArray>() {
             @Override
@@ -129,10 +150,13 @@ public class refriActivity extends Activity{
                         jsonResponse += "Tiempo: " + time + "\n\n";
                         jsonResponse += "Tipo: " + type + "\n\n";
                         jsonResponse += "Pasos: " + description + "\n\n";
+                   //     receta.put("nombre", name);
+                     //   receta.put("tiempo", time);
+
                     }
 
                     Intent intent = new Intent(getBaseContext(), activityReceta.class);
-                    intent.putExtra("sentJson", jsonResponse);
+                    intent.putExtra("sendJson", jsonResponse);
                     startActivity(intent);
 
 
